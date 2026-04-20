@@ -1,0 +1,30 @@
+// prisma/schema.prisma
+// Define your database models
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Example models
+
+model User {
+  id    String     @id
+  email String  @unique
+  password  String?
+  tasks Task[]
+}
+
+model Task {
+  id          Int     @id @default(autoincrement())
+  title       String
+  description String?
+  isCompleted Boolean @default(false)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+}
