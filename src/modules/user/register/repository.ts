@@ -1,6 +1,4 @@
-import { Prisma } from "../../../../generated/prisma/client";
-import { prisma } from "../../../database/prisma";
-import { IUser } from "../../../interfaces/user.interface";
+import { prisma } from "../../../database/prisma.js";
 import {randomUUID} from "crypto"
 
 export class RegisterUserRepository {
@@ -13,9 +11,12 @@ export class RegisterUserRepository {
         return registerUser
     }
     async findUserEmail(email: string) {
+        console.log("validando email")
         const emailUser = await prisma.user.findUnique({
             where: {email}
         })
+
+        console.log(emailUser)
 
         return emailUser
     }

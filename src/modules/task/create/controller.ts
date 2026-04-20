@@ -1,6 +1,6 @@
 import {Request, Response} from "express"
-import { bodySchema, userSchema } from "./schemas"
-import { AppError } from "../../../error/appError"
+import { bodySchema, userSchema } from "./schemas.js"
+import { AppError } from "../../../error/appError.js"
 
 export class CreateTaskController {
     constructor(public service: any) {}

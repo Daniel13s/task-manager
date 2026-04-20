@@ -2,7 +2,7 @@
   // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
     // File Layout
-    "rootDir": "./src",
+    "rootDir": "./",
     "outDir": "./dist",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
@@ -10,7 +10,10 @@
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
     "module": "nodenext",
+    "moduleResolution": "nodenext",
     "target": "esnext",
+    "skipDefaultLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
     "types": [],
     // For nodejs:
     // "lib": ["esnext"],
@@ -43,5 +46,5 @@
     "moduleDetection": "force",
     "skipLibCheck": true,
   },
-  "include": ["./src"]
+  "include": ["src/**/*", "generated/**/*"]
 }

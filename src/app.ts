@@ -1,10 +1,12 @@
 import express, { NextFunction, Request, Response } from "express"
-import {taskRoutes} from "./routes/task.routes"
-import { AppError } from "./error/appError"
+import {taskRoutes} from "./routes/task.routes.js"
+import { AppError } from "./error/appError.js"
+import { userRoutes } from "./routes/user.routes.js"
 
 export const app = express()
 
 app.use(express.json())
+app.use(userRoutes)
 app.use(taskRoutes)
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {

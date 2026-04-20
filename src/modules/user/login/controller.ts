@@ -1,6 +1,6 @@
 import {Request, Response} from "express"
-import { bodySchema } from "./schema"
-import { AppError } from "../../../error/appError"
+import { bodySchema } from "./schema.js"
+import { AppError } from "../../../error/appError.js"
 
 export class LoginUserController {
     constructor(public service: any) {}

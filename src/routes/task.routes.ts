@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { makeCreateTaskController } from "../modules/task/create/factory";
+import { makeCreateTaskController } from "../modules/task/create/factory.js";
 
 export const taskRoutes = Router()
 

@@ -1,6 +1,6 @@
-import { prisma } from "../../../database/prisma";
+import { prisma } from "../../../database/prisma.js";
 import bcrypt from "bcrypt"
-import { AppError } from "../../../error/appError";
+import { AppError } from "../../../error/appError.js";
 
 export class LoginUserRepository {
     async login(email: string, password: string) {

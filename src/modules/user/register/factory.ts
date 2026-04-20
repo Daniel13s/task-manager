@@ -1,6 +1,6 @@
-import { RegisterUserController } from "./controller";
-import { RegisterUserRepository } from "./repository";
-import { RegisterUserService } from "./service";
+import { RegisterUserController } from "./controller.js";
+import { RegisterUserRepository } from "./repository.js";
+import { RegisterUserService } from "./service.js";
 
 export function makeRegisterUserController(){
     const repository = new RegisterUserRepository()
