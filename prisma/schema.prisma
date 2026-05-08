@@ -27,4 +27,6 @@ model Task {
 
   userId String
   user   User   @relation(fields: [userId], references: [id])
+
+  @@index([userId])
 }

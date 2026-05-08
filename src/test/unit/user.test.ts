@@ -3,26 +3,22 @@ import { RegisterUserService } from "../../modules/user/register/service.js"
 import { RegisterUserRepository } from "../../modules/user/register/repository.js"
 import { LoginUserRepository } from "../../modules/user/login/repository.js"
 import { LoginUserService } from "../../modules/user/login/service.js"
-import { prisma } from "../../database/prisma.js"
-
-beforeAll(async () => {
-    await prisma.user.deleteMany()
-})
+import { makeServiceTest } from "./in-memory/factory.js"
 
 test("Should register user", async () => {
-    const repository = new RegisterUserRepository()
-    const service = new RegisterUserService(repository)
+    const {userRegisterService} = makeServiceTest()
 
-    const response = await service.execute("dan@dev.com", "kasjidjaisdijsa")
+    const response = await userRegisterService.execute("dan@dev.com", "kasjidjaisdijsa")
 
     expect(response).toBeTruthy()
 })
 
 test("should logged user", async () => {
-    const repository = new LoginUserRepository()
-    const service = new LoginUserService(repository)
+    const {userLoginService, userRegisterService} = makeServiceTest()
 
-    const response = await service.execute("dan@dev.com", "kasjidjaisdijsa")
+    await userRegisterService.execute("dan@dev.com", "kasjidjaisdijsa")
+
+    const response = await userLoginService.execute("dan@dev.com", "kasjidjaisdijsa")
 
     console.log(response)
 

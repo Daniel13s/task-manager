@@ -11,12 +11,9 @@ export class RegisterUserRepository {
         return registerUser
     }
     async findUserEmail(email: string) {
-        console.log("validando email")
         const emailUser = await prisma.user.findUnique({
             where: {email}
         })
-
-        console.log(emailUser)
 
         return emailUser
     }

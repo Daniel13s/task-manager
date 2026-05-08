@@ -1,0 +1,30 @@
+POST http://localhost:3000/register
+Content-Type: application/json
+
+{
+    "email": "dansilvac254@gmail.com",
+    "password": "eusoufodademais"
+}
+
+###
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "email": "dansilvac254@gmail.com",
+    "password": "eusoufodademais"
+}
+
+###
+POST http://localhost:3000/task
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImIyNDJjYTA5LWQ4ZDgtNGFkOS1iYTI3LTQwODE4ZmJkMGIzZiIsImlhdCI6MTc3ODA1Mjc1NCwiZXhwIjoxNzc4MDUzNjU0fQ.-RtAVucJxvAfdq02iB9XhoU5rJ0P-2zhFF0Dm2J9SFA
+Content-Type: application/json
+
+{
+    "title": "continuar estudando, nao fraquejar",
+    "description": "So quero nao desistir"
+}
+
+###
+GET http://localhost:3000/task?limit=10&page=1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImIyNDJjYTA5LWQ4ZDgtNGFkOS1iYTI3LTQwODE4ZmJkMGIzZiIsImlhdCI6MTc3ODA1Mjc1NCwiZXhwIjoxNzc4MDUzNjU0fQ.-RtAVucJxvAfdq02iB9XhoU5rJ0P-2zhFF0Dm2J9SFA

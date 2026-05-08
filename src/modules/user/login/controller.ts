@@ -12,6 +12,7 @@ export class LoginUserController {
 
             return res.status(200).json({message: "user logged", token})
         }catch(err) {
+            console.log("erro")
             return new AppError("Internal server error", 500)
         }
     }

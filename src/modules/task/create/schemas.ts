@@ -6,5 +6,5 @@ export const bodySchema = z.object({
 })
 
 export const userSchema = z.object({
-    userId: z.uuid()
+    id: z.string()
 })
