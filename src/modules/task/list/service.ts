@@ -29,7 +29,6 @@ export class ListTaskService {
         const cached = await redis.get(cacheKey)
 
         if(cached) {
-            console.log("bateu no cache!")
             return JSON.parse(cached)
         }
 

@@ -12,6 +12,6 @@ export class LoginUserService {
             expiresIn: "15m"
         })
 
-        return token
+        return {token, id: validation.id}
     }
 }

@@ -8,9 +8,10 @@ export class LoginUserController {
         try{
             const {email, password} = bodySchema.parse(req.body)
 
-            const token = await this.service.execute(email, password)
+            const {token, id} = await this.service.execute(email, password)
+            console.log('login realizado')
 
-            return res.status(200).json({message: "user logged", token})
+            return res.status(200).json({message: "user logged", id, token})
         }catch(err) {
             console.log("erro")
             return new AppError("Internal server error", 500)

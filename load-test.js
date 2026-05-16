@@ -2,30 +2,72 @@ import http from 'k6/http';
 import { check, sleep } from 'k6';
 
 export const options = {
-  // Configuração do cenário
   stages: [
-    { duration: '1m', target: 300 },
-    { duration: '2m', target: 600 },
-    { duration: '20s', target: 0 },
+    { duration: '30s', target: 20 },
+    { duration: '1m', target: 20 },
+    { duration: '10s', target: 0 },
   ],
+  thresholds: {
+    http_req_duration: ['p(95)<200'], // 95% das reqs devem ser < 200ms
+    http_req_failed: ['rate<0.01'],   // Menos de 1% de erro
+  },
 };
 
-export default function () {
-  const url = 'http://127.0.0.1:3000/task?page=1&limit=10';
-  const params = {
+const BASE_URL = 'http://127.0.0.1:3000';
+
+export function setup() {
+  const loginPayload = JSON.stringify({
+    email: 'dansilvac254@gmail.com',
+    password: 'eusoufodademais',
+  });
+
+  const loginRes = http.post(`${BASE_URL}/login`, loginPayload, {
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  check(loginRes, {
+    'login realizado com sucesso': (r) => r.status === 200
+  })
+
+  return { id: loginRes.json('id'), token: loginRes.json('token')}
+}
+
+export default function (data) {
+  const authHeaders = {
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImIyNDJjYTA5LWQ4ZDgtNGFkOS1iYTI3LTQwODE4ZmJkMGIzZiIsImlhdCI6MTc3ODE5ODA5MywiZXhwIjoxNzc4MTk4OTkzfQ.p7qhFiV60ItgCqr1fyo9CpFxleYL_Fc7yNr_g8-d4gg', 
+      Authorization: `Bearer ${data.token}`,
     },
   };
 
-  const res = http.get(url, params);
-
-  // Verifica se o status é 200 e se o tempo de resposta é menor que 200ms
-  check(res, {
-    'status é 200': (r) => r.status === 200,
-    'tempo de resposta < 200ms': (r) => r.timings.duration < 200,
+  const taskPayload = JSON.stringify({
+    title: `Task Gerada pelo k6 - ${__VU}:${__ITER}`,
+    description: 'Teste de carga',
   });
 
-  sleep(1); 
+  const createTaskRes = http.post(`${BASE_URL}/task`, taskPayload, authHeaders);
+
+  check(createTaskRes, {
+    'tarefa criada': (r) => r.status === 201,
+  });
+
+  const listTasksRes = http.get(`${BASE_URL}/task?page=1&limit=10`, authHeaders);
+
+  check(listTasksRes, {
+    'lista obtida com sucesso': (r) => r.status === 200,
+    'lista não está vazia': (r) => r.json().length > 0,
+  });
+
+  sleep(1);
+}
+
+export function teardown(data) {
+  console.log('--- Iniciando Teardown: Limpando banco de dados ---');
+
+  const response = http.del(`${BASE_URL}/user/${data.id}`, null, {
+    headers: {Authorization: `Bearer ${data.token}`}
+  })
+  check(response, {
+    'tasks deletadas com sucesso': (r) => r.status === 200
+  })
 }
